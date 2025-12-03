@@ -28,7 +28,18 @@ flowchart TD
     L2 -->|"SFTP upload (SSH)"| SFTP2["SFTP Server: /reports/intraday"]
 
 ```
-Key capabilities:
+## Power Automate flow
+
+The email ingestion logic is implemented in a Power Automate flow that:
+
+- Watches a dedicated Office 365 mailbox
+- Filters emails and attachments based on business rules
+- Sends each attachment to API Gateway via HTTP POST (binary body + metadata)
+
+For the detailed flow diagram and step-by-step breakdown, see:  
+[Power Automate flow overview](power-automate/flow-overview.md)
+
+Key features:
 
  - Power Automate → API Gateway binary HTTP integration
  - Lambda ingestion with S3 storage and SSE encryption
@@ -36,7 +47,5 @@ Key capabilities:
  - Routing rules stored in SSM (regex-based, multi-destination)
  - Streaming S3-to-SFTP (no full file load)
  - Cross-platform automation (Microsoft 365 → AWS → SFTP)
-
-See lambda/ for AWS functions and power-automate/ for flow overview.
 
 Tech stack: Power Automate, AWS API Gateway, AWS Lambda, S3, SSM Parameter Store, Python, Paramiko, SFTP

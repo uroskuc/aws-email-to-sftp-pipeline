@@ -1,6 +1,6 @@
 Power Automate Flow Overview
 
-This flow monitors a shared Office 365 mailbox, filters relevant emails, extracts attachments, and sends them to AWS API Gateway as binary HTTP requests.
+This flow monitors a dedicated Office 365 mailbox, filters relevant emails, extracts attachments, and sends them to AWS API Gateway as binary HTTP requests.
 
 Key steps:
  - Trigger on new email in a specific mailbox/folder
@@ -19,3 +19,28 @@ Purpose:
  - Automates secure delivery of selected attachments into AWS
  - Fully replaces manual mailbox checks
  - Works as the first step of the AWS → S3 → SFTP pipeline
+
+```mermaid
+flowchart TD
+
+    T["When a new email arrives (V3)"]
+
+    C0["Condition: top-level email filter"]
+    N0["No action"]
+
+    F["For each attachment"]
+
+    C1["Condition 1: attachment filter"]
+    N1["No action (skip attachment)"]
+
+    H["HTTP: send attachment to API Gateway"]
+
+    % wiring
+    T --> C0
+    C0 -->|"True"| F
+    C0 -->|"False"| N0
+
+    F --> C1
+    C1 -->|"True"| H
+    C1 -->|"False"| N1
+```

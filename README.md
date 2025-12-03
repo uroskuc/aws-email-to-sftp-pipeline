@@ -29,16 +29,13 @@ flowchart LR
 
     %% SFTP destinations
     subgraph SFTP_Destinations["SFTP Destinations"]
-        SFTP1["SFTP Server /caoweb/out"]
-        SFTP2["SFTP Server /alpex/in"]
+        SFTP1["SFTP Server /reports/daily"]
+        SFTP2["SFTP Server /partners/intraday"]
     end
 
     L2 -->|"SFTP upload (SSH)"| SFTP1
     L2 -->|"SFTP upload (SSH)"| SFTP2
-
 ```
-
-
 Key capabilities:
 
  - Power Automate → API Gateway binary HTTP integration

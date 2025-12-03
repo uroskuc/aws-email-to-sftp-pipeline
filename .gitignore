@@ -1,0 +1,30 @@
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment variable files
+.env
+.env.*
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# PyCharm/IDE junk
+.idea/
+.vscode/
+
+# OS junk
+.DS_Store
+
+# Packaging / build artifacts
+*.egg-info/
+dist/
+build/
+
+# Zip files produced for Lambda packaging (if you ever create them)
+*.zip

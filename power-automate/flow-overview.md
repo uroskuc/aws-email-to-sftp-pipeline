@@ -30,12 +30,11 @@ flowchart TD
 
     F["For each attachment"]
 
-    C1["Condition 1: attachment filter"]
-    N1["No action (skip attachment)"]
+    C1["Condition: attachment filter"]
+    N1["Skip attachment"]
 
     H["HTTP: send attachment to API Gateway"]
 
-    % wiring
     T --> C0
     C0 -->|"True"| F
     C0 -->|"False"| N0
@@ -43,4 +42,5 @@ flowchart TD
     F --> C1
     C1 -->|"True"| H
     C1 -->|"False"| N1
+
 ```

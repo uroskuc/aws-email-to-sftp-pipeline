@@ -5,36 +5,37 @@ Pipeline that extracts email attachments from Office 365, sends them to AWS (API
 ```mermaid
 flowchart LR
     %% Inbound email side
-    subgraph Email_Source[Email Source]
-        O365[Office 365 / Exchange Online]
-        PA[Power Automate Flow<br/>(HTTP POST)]
+    subgraph Email_Source["Email Source"]
+        O365["Office 365 / Exchange Online"]
+        PA["Power Automate Flow (HTTP POST)"]
         O365 --> PA
     end
 
     %% AWS API entrypoint
-    PA -->|HTTP POST (file + metadata)| APIGW[Amazon API Gateway]
+    PA -->|"HTTP POST (file + metadata)"| APIGW["Amazon API Gateway"]
 
-    subgraph AWS[Amazon Web Services]
-        APIGW -->|Invoke| L1[Lambda #1<br/>(email_to_s3)]
+    subgraph AWS["Amazon Web Services"]
+        APIGW -->|"Invoke"| L1["Lambda #1 (email_to_s3)"]
 
-        L1 -->|Put object| S3[(S3 Bucket<br/>raw email files)]
+        L1 -->|"Put object"| S3["S3 Bucket (raw email files)"]
 
         %% Trigger from S3 to Lambda #2
-        S3 -->|S3 Put event| L2[Lambda #2<br/>(s3_to_sftp)]
+        S3 -->|"S3 Put event"| L2["Lambda #2 (s3_to_sftp)"]
 
         %% Config-driven routing
-        SSM[(SSM Parameter Store<br/>routing rules)]
-        SSM -->|Load routes<br/>(patterns + SFTP paths)| L2
+        SSM["SSM Parameter Store (routing rules)"]
+        SSM -->|"Load routes (patterns + SFTP paths)"| L2
     end
 
     %% SFTP destinations
-    subgraph SFTP_Destinations[SFTP Destinations]
-        SFTP1[/SFTP Server<br/>\n/caoweb/out/]
-        SFTP2[/SFTP Server<br/>\n/alpex/in/]
+    subgraph SFTP_Destinations["SFTP Destinations"]
+        SFTP1["SFTP Server /caoweb/out"]
+        SFTP2["SFTP Server /alpex/in"]
     end
 
-    L2 -->|SFTP upload (SSH)| SFTP1
-    L2 -->|SFTP upload (SSH)| SFTP2
+    L2 -->|"SFTP upload (SSH)"| SFTP1
+    L2 -->|"SFTP upload (SSH)"| SFTP2
+
 
 
 

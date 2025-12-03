@@ -36,7 +36,7 @@ flowchart LR
     L2 -->|"SFTP upload (SSH)"| SFTP1
     L2 -->|"SFTP upload (SSH)"| SFTP2
 
-
+```
 
 
 Key capabilities:
